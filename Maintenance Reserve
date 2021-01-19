@@ -1,0 +1,111 @@
+import os
+import pandas as pd
+
+os.chdir(r"C:\Users\paulo.roberto\Documents\Maintenance Reserve - IATA\Fleet")
+arquivo = pd.ExcelFile("((ATR)) Registro de Pagamento_Contabilidade (Nov-19).xlsx")
+sheets = list(arquivo.sheet_names)
+count = 0
+df3 = pd.DataFrame()
+listvalue = []
+listperiod = []
+listname = []
+listarq = []
+listclass = []
+for i in sheets:
+    df = pd.read_excel(arquivo, sheet_name = sheets[count])
+    indexdf = int(df[df.iloc[:,0] == "PERIOD"].index[0] - 1)
+    df2 = pd.DataFrame()
+    df2 = df[df.index>= indexdf].reset_index()
+    df2['arq'] = i
+    df2.iloc[0,1] = ""
+    listcolumns = []
+    dfcolumnname = pd.DataFrame(df2.iloc[0,:])
+    dfcolumnname = dfcolumnname.fillna(method='ffill')
+    dfcolumnname2 = pd.DataFrame(df2.iloc[1,:])
+    dfcolumnname2 = dfcolumnname2.fillna(method='ffill')
+    dfcolumnname3 = pd.DataFrame()
+    dfcolumnname3['COLUMN1'] = dfcolumnname[0]
+    dfcolumnname3['COLUMN2'] = dfcolumnname2[1]
+    dfcolumnname3['COLUMN3'] = dfcolumnname3[['COLUMN1', 'COLUMN2']].astype(str).apply('(-_-)'.join, 1)
+    df2.columns = dfcolumnname3['COLUMN3']
+    df2 = df2.fillna(0)
+    df2 = df2.iloc[3:]
+    df2 =  df2.reset_index()
+    df2 = df2.fillna("0")
+
+    cols = pd.Series(df2.columns)
+    for dup in cols[cols.duplicated()].unique():
+        cols[cols[cols == dup].index.values.tolist()] = [dup + '.' + str(i) if i != 0 else dup for i in
+                                                         range(sum(cols == dup))]
+
+    df2.columns = cols
+
+    for z in df2.columns:
+        if str(z).lower().__contains__("invoice"):
+            for a in df2['{}'.format(z)]:
+                listvalue.append(a)
+            for b in df2['(-_-)PERIOD']:
+                listperiod.append(b)
+                listname.append(z)
+                listarq.append(i)
+    # #
+    # for v in df2.columns:
+    #     if str(v).lower().__contains__("invoice"):
+    #         if str(v).lower().__contains__("llp"):
+    #             for b in df2['(-_-)PERIOD']:
+    #                 listclass.append("LLP")
+    #         if str(v).lower().__contains__("apu"):
+    #             for b in df2['(-_-)PERIOD']:
+    #                 listclass.append("APU")
+    #         if str(v).lower().__contains__("airframe"):
+    #             for b in df2['(-_-)PERIOD']:
+    #                 listclass.append("AIRFRAME")
+    #         if str(v).lower().__contains__("epr"):
+    #             for b in df2['(-_-)PERIOD']:
+    #                 listclass.append("ENGINE")
+    #         if str(v).lower().__contains__("landing"):
+    #             for b in df2['(-_-)PERIOD']:
+    #                 listclass.append("LANDING GEAR")
+    #             else:
+    #                 if str(v).lower().__contains__("invoice"):
+    #                     for b in df2['(-_-)PERIOD']:
+    #                         listclass.append("OTHER")
+
+    # for y in df2.columns:
+    #     if str(y).lower().__contains__("actual"):
+    #         for a in df2['{}'.format(y)]:
+    #             listvalue.append(a)
+    #
+    #         for b in df2['(-_-)PERIOD']:
+    #             listperiod.append(b)
+    #             listname.append(y)
+    #             listarq.append(i)
+
+    for x in df2.columns:
+        if str(x).lower().__contains__("check"):
+            for a in df2['{}'.format(x)]:
+                listvalue.append(a)
+            for b in df2['(-_-)PERIOD']:
+                listperiod.append(b)
+                listname.append(x)
+                listarq.append(i)
+                # listclass.append("Airframe")
+
+    count += 1
+    #
+    # excel = pd.ExcelWriter(r'C:\Users\paulo.roberto\Documents\Maintenance Reserve - IATA\{}.xlsx'.format(i), engine='xlsxwriter')
+    # df2.to_excel(excel, sheet_name='Consolidado')
+    # excel.save()
+
+print(len(listperiod))
+print(len(listvalue))
+print(len(listname))
+print(len(listarq))
+
+
+df3 = pd.DataFrame(list(zip(listperiod,listvalue,listname,listarq)), columns=['PERIOD','VALUE', 'DESC','ARQUIVO'])
+
+excel = pd.ExcelWriter(r'C:\Users\paulo.roberto\Documents\Maintenance Reserve - IATA\Resmat - ATR.xlsx',engine='xlsxwriter')
+df3 .to_excel(excel, sheet_name='Consolidado')
+excel.save()
+#

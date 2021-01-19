@@ -31,12 +31,6 @@ for arq in os.listdir(path):
                 listatratada.append(rowap2)
             conta += 1
 
-
-# print(listrazao[0])
-
-
-        # conta += 1
-
 listafim = listaok + listatratada
 
 with open('newfile.txt', 'w') as Razao:
