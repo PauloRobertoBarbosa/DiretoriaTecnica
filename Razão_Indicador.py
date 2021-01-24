@@ -36,4 +36,5 @@ for i in lista:
 
     dfall = dfall.append(df, ignore_index=True)
 
+#Export
 dfall.to_csv("testerazao.txt", sep=";", encoding='ANSI')
