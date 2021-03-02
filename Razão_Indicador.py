@@ -14,7 +14,7 @@ dfall = pd.DataFrame()
 for i in lista:
     razao = pd.read_csv(i, quoting=3, delimiter=';', skiprows=26, encoding='ANSI',
                         thousands='.', decimal=',', low_memory=False, error_bad_lines=True,)
-    df = razao[
+    df  = razao[
         ['Filial', 'Descrição Filial', 'Centro de Custo', 'Descrição Centro de Custo', 'Conta', 'Descrição Conta',
          'Tipo de Servico', 'Descrição Tipo de Servico', 'Prefixo da Aeronave', 'Descrição Prefixo da Aeronave',
          'Líquido', 'Mês', 'Data GL', 'Origem', 'Categoria', 'Histórico', 'Fornecedor', 'Numero NF RI/AP',

@@ -9,12 +9,12 @@ while pesquisa != 'NÃO':#esquanto a pesquisa for diferente de "NÃO"
     pesquisa = input('Digite o que deseja pesquisar: ')#Insere nova palavra a ser pesquisada
 #
 for i in lista:
-    with open(r"C:\Users\paulo.roberto\Documents\Base Razao\{}".format(arquvivo),'r', encoding='utf-8', errors='surrogateescape') as buscatxt :#Abre arquivo para pesquisar
+    with open(r"C:\Users\paulo.roberto\Documents\Razão VP Tec\{}".format(arquvivo),'r', encoding='utf-8', errors='surrogateescape') as buscatxt :#Abre arquivo para pesquisar
         header = ''
         for cabecalho in buscatxt:
             if cabecalho.startswith('Lote;'):
                 header = cabecalho
-                with open(r"C:\Users\paulo.roberto\Documents\{}.txt".format('buscatxt'), 'w', encoding='utf-8', errors='surrogateescape') as buscatxtpesquisa:  # Cria novo arquivo para escrever a pesquisa
+                with open(r"C:\Users\paulo.roberto\Documents\Razão VP Tec\{}.txt".format('buscatxt'), 'w', encoding='utf-8', errors='surrogateescape') as buscatxtpesquisa:  # Cria novo arquivo para escrever a pesquisa
                     buscatxtpesquisa.write('Classe;' + header)  # Escreve o cabeçalho
                     for linha in buscatxt:  # Corre cada linha do arquivo
                         for item in lista:  # Para cada item da lista criada
