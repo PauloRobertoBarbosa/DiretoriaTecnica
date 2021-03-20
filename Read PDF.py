@@ -1,6 +1,6 @@
-from tabula import read_pdf
+import camelot
 import os
 os.chdir(r'C:/Users/paulo.roberto/Documents')
 
-file = "A320.pdf"
-tables = read_pdf(file)
+tables = pip
+tables
